@@ -8,6 +8,15 @@ import { JournalEntryTool } from "@/components/journal-entry-tool";
 import { FinancialStatementsTool } from "@/components/financial-statements-tool";
 import { RatioAnalyzerTool } from "@/components/ratio-analyzer-tool";
 import { GlossaryExplorer } from "@/components/glossary-explorer";
+import { StudentDashboard } from "@/components/student-dashboard";
+import {
+  DepreciationTool,
+  PayrollTool,
+  BreakEvenTool,
+  TimeValueTool,
+  VatTool,
+  WorkingCapitalTool,
+} from "@/components/extra-tools";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -16,16 +25,18 @@ import {
   GraduationCap,
   Wrench,
   BookText,
-  ArrowLeft,
   TrendingUp,
   Award,
   Users,
   Clock,
   Sparkles,
   ChevronLeft,
+  LayoutDashboard,
+  Target,
+  Building2,
 } from "lucide-react";
 
-type View = "home" | "curriculum" | "tools" | "glossary";
+type View = "home" | "curriculum" | "tools" | "glossary" | "dashboard";
 
 export default function Home() {
   const [view, setView] = useState<View>("home");
@@ -51,47 +62,20 @@ export default function Home() {
     );
   }
 
-  if (view === "tools") {
+  if (view === "dashboard") {
     return (
       <div className="min-h-screen flex flex-col bg-background">
         <Header onNavigate={handleNavigate} activeView={view} />
         <main className="flex-1 max-w-7xl mx-auto w-full px-4 py-6 md:py-10">
-          <div className="mb-6">
-            <h1 className="text-3xl font-bold mb-2">الأدوات المحاسبية التفاعلية</h1>
-            <p className="text-muted-foreground">
-              مارس ما تعلمته من خلال أدوات تفاعلية تحاكي الواقع المحاسبي
-            </p>
-          </div>
-
-          {/* Tabs */}
-          <div className="flex flex-wrap gap-2 mb-6 border-b">
-            {[
-              { id: "journal", label: "القيد المحاسبي", icon: BookOpen },
-              { id: "statements", label: "القوائم المالية", icon: TrendingUp },
-              { id: "ratios", label: "تحليل النسب", icon: Calculator },
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setToolTab(tab.id)}
-                className={`px-4 py-3 font-semibold text-sm border-b-2 transition-colors flex items-center gap-2 ${
-                  toolTab === tab.id
-                    ? "border-primary text-primary"
-                    : "border-transparent text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                <tab.icon className="h-4 w-4" />
-                {tab.label}
-              </button>
-            ))}
-          </div>
-
-          {toolTab === "journal" && <JournalEntryTool />}
-          {toolTab === "statements" && <FinancialStatementsTool />}
-          {toolTab === "ratios" && <RatioAnalyzerTool />}
+          <StudentDashboard />
         </main>
         <Footer />
       </div>
     );
+  }
+
+  if (view === "tools") {
+    return <ToolsView onBack={() => handleNavigate("home")} toolTab={toolTab} setToolTab={setToolTab} />;
   }
 
   if (view === "glossary") {
@@ -102,7 +86,7 @@ export default function Home() {
           <div className="mb-6">
             <h1 className="text-3xl font-bold mb-2">معجم المصطلحات المحاسبية</h1>
             <p className="text-muted-foreground">
-              مرجع شامل لأهم المصطلحات المحاسبية بالعربية والإنجليزية مع التعريفات
+              مرجع شامل لـ {curriculumStats.glossaryTerms}+ مصطلح محاسبي بالعربية والإنجليزية مع التعريفات والأمثلة
             </p>
           </div>
           <GlossaryExplorer />
@@ -134,8 +118,8 @@ export default function Home() {
               </span>
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-8 leading-relaxed">
-              رحلة تعليمية متكاملة عبر أربعة مستويات، تشمل 12 وحدة دراسية و{curriculumStats.lessons}+ درساً تفصيلياً،
-              مع أدوات محاسبية تفاعلية، اختبارات، ومعجم مصطلحات شامل. ابدأ رحلتك نحو احتراف المحاسبة المالية اليوم.
+              رحلة تعليمية متكاملة عبر أربعة مستويات، تشمل {curriculumStats.modules} وحدة دراسية و{curriculumStats.lessons}+ درساً تفصيلياً،
+              مع {curriculumStats.quizzes}+ سؤال، {curriculumStats.glossaryTerms}+ مصطلح في المعجم، وأدوات محاسبية تفاعلية. ابدأ رحلتك نحو احتراف المحاسبة المالية اليوم.
             </p>
 
             <div className="flex flex-wrap items-center justify-center gap-3">
@@ -156,6 +140,17 @@ export default function Home() {
                 <Wrench className="h-5 w-5 ml-2" />
                 جرب الأدوات التفاعلية
               </Button>
+              {completedLessons.length > 0 && (
+                <Button
+                  size="lg"
+                  variant="secondary"
+                  onClick={() => handleNavigate("dashboard")}
+                  className="text-base px-8"
+                >
+                  <LayoutDashboard className="h-5 w-5 ml-2" />
+                  لوحة التحكم
+                </Button>
+              )}
             </div>
 
             {/* Stats */}
@@ -174,13 +169,13 @@ export default function Home() {
               />
               <StatCard
                 icon={Clock}
-                value={`${Math.round(curriculumStats.totalDuration / 60)} ساعة`}
+                value={`${curriculumStats.totalHours}+ ساعة`}
                 label="محتوى تعليمي"
                 color="text-rose-600"
               />
               <StatCard
                 icon={BookText}
-                value={curriculumStats.glossaryTerms.toString()}
+                value={`${curriculumStats.glossaryTerms}+`}
                 label="مصطلح في المعجم"
                 color="text-violet-600"
               />
@@ -199,7 +194,6 @@ export default function Home() {
 
           <div className="grid md:grid-cols-2 gap-6">
             {curriculum.map((level, idx) => {
-              const colors = ["emerald", "amber", "rose", "violet"];
               const colorMap: Record<string, { bg: string; text: string; border: string; from: string }> = {
                 emerald: { bg: "bg-emerald-50", text: "text-emerald-700", border: "border-emerald-200", from: "from-emerald-500" },
                 amber: { bg: "bg-amber-50", text: "text-amber-700", border: "border-amber-200", from: "from-amber-500" },
@@ -219,9 +213,12 @@ export default function Home() {
                     <div className={`flex-shrink-0 h-14 w-14 rounded-xl bg-gradient-to-br ${c.from} to-primary flex items-center justify-center text-white`}>
                       <span className="text-2xl font-bold">{idx + 1}</span>
                     </div>
-                    <Badge variant="outline" className={c.text}>
-                      {levelLessons} دروس
-                    </Badge>
+                    <div className="text-left">
+                      <Badge variant="outline" className={c.text}>
+                        {levelLessons} دروس
+                      </Badge>
+                      <div className="text-xs text-muted-foreground mt-1">{level.estimatedHours} ساعة</div>
+                    </div>
                   </div>
                   <h3 className="text-xl font-bold mb-1">{level.title}</h3>
                   <p className={`text-sm font-semibold ${c.text} mb-3`}>{level.subtitle}</p>
@@ -252,31 +249,31 @@ export default function Home() {
               <FeatureCard
                 icon={BookOpen}
                 title="محتوى تعليمي عميق"
-                description="دروس شاملة باللغة العربية مع أمثلة عملية، معادلات، وتمارين تطبيقية. كل درس يبني على ما قبله في تسلسل منطقي."
+                description={`${curriculumStats.lessons}+ درس شامل باللغة العربية مع أمثلة عملية، معادلات، جداول، وتمارين تطبيقية. كل درس يبني على ما قبله في تسلسل منطقي.`}
                 color="text-emerald-600"
               />
               <FeatureCard
                 icon={Wrench}
-                title="أدوات تفاعلية"
-                description="جرب بنفسك! سجل القيود المحاسبية، أنشئ القوائم المالية، وحلل النسب ببياناتك الخاصة في بيئة آمنة."
+                title="9 أدوات تفاعلية"
+                description="جرب بنفسك! سجل القيود، أنشئ القوائم المالية، حلل النسب، احسب الإهلاك، الرواتب، نقطة التعادل، القيمة الزمنية، VAT، ورأس المال العامل."
                 color="text-amber-600"
               />
               <FeatureCard
                 icon={Award}
-                title="اختبارات وتمارين"
+                title={`${curriculumStats.quizzes}+ سؤال تفاعلي`}
                 description="كل درس يختم باختبار تفاعلي مع تصحيح فوري وشرح الإجابات. تابع تقدمك في رحلتك التعليمية خطوة بخطوة."
                 color="text-rose-600"
               />
               <FeatureCard
                 icon={BookText}
                 title="معجم شامل"
-                description="مرجع سريع لأهم المصطلحات المحاسبية بالعربية والإنجليزية مع التعريفات، مصنفة حسب المجال."
+                description={`${curriculumStats.glossaryTerms}+ مصطلح محاسبي بالعربية والإنجليزية مع التعريفات، الأمثلة، والمصطلحات ذات الصلة. مصنف حسب المجال.`}
                 color="text-violet-600"
               />
               <FeatureCard
-                icon={Users}
-                title="متاح للجميع"
-                description="محتوى مجاني بالكامل، مناسب للطلاب، المحاسبين المبتدئين، رجال الأعمال، وكل مهتم بالمحاسبة."
+                icon={LayoutDashboard}
+                title="لوحة تحكم متقدمة"
+                description="تابع تقدمك بإحصائيات شاملة، إنجازات تفاعلية، ومؤشرات أداء. احصل على شارات الإنجاز عند إكمال المراحل."
                 color="text-emerald-600"
               />
               <FeatureCard
@@ -314,6 +311,63 @@ export default function Home() {
   );
 }
 
+function ToolsView({
+  onBack,
+  toolTab,
+  setToolTab,
+}: {
+  onBack: () => void;
+  toolTab: string;
+  setToolTab: (t: string) => void;
+}) {
+  const tools = [
+    { id: "journal", label: "القيد المحاسبي", icon: BookOpen, component: <JournalEntryTool /> },
+    { id: "statements", label: "القوائم المالية", icon: TrendingUp, component: <FinancialStatementsTool /> },
+    { id: "ratios", label: "تحليل النسب", icon: Calculator, component: <RatioAnalyzerTool /> },
+    { id: "depreciation", label: "الإهلاك", icon: Calculator, component: <DepreciationTool /> },
+    { id: "payroll", label: "الرواتب", icon: Building2, component: <PayrollTool /> },
+    { id: "breakeven", label: "نقطة التعادل", icon: Target, component: <BreakEvenTool /> },
+    { id: "timevalue", label: "القيمة الزمنية", icon: Clock, component: <TimeValueTool /> },
+    { id: "vat", label: "ضريبة القيمة المضافة", icon: BookOpen, component: <VatTool /> },
+    { id: "working", label: "رأس المال العامل", icon: Building2, component: <WorkingCapitalTool /> },
+  ];
+
+  return (
+    <div className="min-h-screen flex flex-col bg-background">
+      <Header onNavigate={onBack} activeView="tools" />
+      <main className="flex-1 max-w-7xl mx-auto w-full px-4 py-6 md:py-10">
+        <div className="mb-6">
+          <h1 className="text-3xl font-bold mb-2">الأدوات المحاسبية التفاعلية</h1>
+          <p className="text-muted-foreground">
+            مارس ما تعلمته من خلال 9 أدوات تفاعلية تحاكي الواقع المحاسبي
+          </p>
+        </div>
+
+        {/* Tabs */}
+        <div className="flex flex-wrap gap-2 mb-6 border-b overflow-x-auto">
+          {tools.map((tool) => (
+            <button
+              key={tool.id}
+              onClick={() => setToolTab(tool.id)}
+              className={`px-4 py-3 font-semibold text-sm border-b-2 transition-colors flex items-center gap-2 whitespace-nowrap ${
+                toolTab === tool.id
+                  ? "border-primary text-primary"
+                  : "border-transparent text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <tool.icon className="h-4 w-4" />
+              {tool.label}
+            </button>
+          ))}
+        </div>
+
+        {tools.find((t) => t.id === toolTab)?.component}
+      </main>
+      <Footer />
+    </div>
+  );
+}
+
 function Header({
   onNavigate,
   activeView,
@@ -339,7 +393,7 @@ function Header({
             <span className="sm:hidden">المحاسبة</span>
           </button>
 
-          <nav className="flex items-center gap-1">
+          <nav className="flex items-center gap-1 flex-wrap">
             <NavButton
               active={activeView === "home"}
               onClick={() => onNavigate("home")}
@@ -364,10 +418,16 @@ function Header({
               icon={BookText}
               label="المعجم"
             />
+            <NavButton
+              active={activeView === "dashboard"}
+              onClick={() => onNavigate("dashboard")}
+              icon={LayoutDashboard}
+              label="لوحتي"
+            />
             {progress > 0 && (
               <div className="hidden md:flex items-center gap-1 px-3 py-1.5 rounded-full bg-emerald-100 text-emerald-700 text-xs font-semibold">
                 <Award className="h-3.5 w-3.5" />
-                {progress} درس مكتمل
+                {progress} درس
               </div>
             )}
           </nav>
@@ -469,6 +529,7 @@ function Footer() {
               <li>المنهج الكامل</li>
               <li>الأدوات التفاعلية</li>
               <li>معجم المصطلحات</li>
+              <li>لوحة التحكم</li>
             </ul>
           </div>
           <div>
