@@ -199,8 +199,10 @@ export default function Home() {
                 amber: { bg: "bg-amber-50", text: "text-amber-700", border: "border-amber-200", from: "from-amber-500" },
                 rose: { bg: "bg-rose-50", text: "text-rose-700", border: "border-rose-200", from: "from-rose-500" },
                 violet: { bg: "bg-violet-50", text: "text-violet-700", border: "border-violet-200", from: "from-violet-500" },
+                cyan: { bg: "bg-cyan-50", text: "text-cyan-700", border: "border-cyan-200", from: "from-cyan-500" },
+                indigo: { bg: "bg-indigo-50", text: "text-indigo-700", border: "border-indigo-200", from: "from-indigo-500" },
               };
-              const c = colorMap[level.color];
+              const c = colorMap[level.color] || colorMap.emerald;
               const levelLessons = level.modules.reduce((s, m) => s + m.lessons.length, 0);
 
               return (

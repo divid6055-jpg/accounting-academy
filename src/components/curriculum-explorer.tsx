@@ -52,6 +52,20 @@ const levelColors: Record<string, { bg: string; text: string; border: string; ba
     badge: "bg-violet-100 text-violet-700",
     gradient: "from-violet-500 to-violet-700",
   },
+  cyan: {
+    bg: "bg-cyan-50",
+    text: "text-cyan-700",
+    border: "border-cyan-200",
+    badge: "bg-cyan-100 text-cyan-700",
+    gradient: "from-cyan-500 to-cyan-700",
+  },
+  indigo: {
+    bg: "bg-indigo-50",
+    text: "text-indigo-700",
+    border: "border-indigo-200",
+    badge: "bg-indigo-100 text-indigo-700",
+    gradient: "from-indigo-500 to-indigo-700",
+  },
 };
 
 export function CurriculumExplorer() {
@@ -109,7 +123,7 @@ export function CurriculumExplorer() {
   // Show lesson viewer
   if (activeLessonData) {
     const { level, module, lesson } = activeLessonData;
-    const colors = levelColors[level.color];
+    const colors = levelColors[level.color] || levelColors.emerald;
     const isCompleted = completedLessons.includes(lesson.id);
     const isBookmarked = bookmarks.includes(lesson.id);
     const quizScore = completedQuizzes[lesson.id];
@@ -266,7 +280,7 @@ export function CurriculumExplorer() {
 
       {/* Curriculum */}
       {curriculum.map((level) => {
-        const colors = levelColors[level.color];
+        const colors = levelColors[level.color] || levelColors.emerald;
         const progress = getLevelProgress(level, completedLessons);
 
         return (
