@@ -3,14 +3,25 @@ import { level1 } from "./curriculum/level1";
 import { level2 } from "./curriculum/level2";
 import { level3 } from "./curriculum/level3";
 import { level4 } from "./curriculum/level4";
+import { level5 } from "./curriculum/level5";
+import { level6 } from "./curriculum/level6";
 import { glossary } from "./curriculum/glossary";
 
 // إعادة تصدير المستويات والمعجم
-export { level1, level2, level3, level4, glossary };
+export { level1, level2, level3, level4, level5, level6, glossary };
 export * from "./types";
 
+// إعادة تصدير البيانات الإضافية
+export { exercises } from "./curriculum/exercises";
+export { caseStudies } from "./curriculum/case-studies";
+export { ifrsStandards } from "./curriculum/ifrs-standards";
+export { chartOfAccounts, accountCategories } from "./curriculum/chart-of-accounts";
+export { sampleCompanies } from "./curriculum/sample-companies";
+export { accountingFormulas, detailedFormulas } from "./curriculum/detailed-formulas";
+export { faqs, accountingTips } from "./curriculum/faqs-tips";
+
 // المنهج الكامل - جميع المستويات
-export const curriculum: Level[] = [level1, level2, level3, level4];
+export const curriculum: Level[] = [level1, level2, level3, level4, level5, level6];
 
 // إحصائيات المنهج
 export const curriculumStats = {
