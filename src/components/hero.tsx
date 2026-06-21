@@ -39,7 +39,7 @@ export function Hero({ onNavigate }: { onNavigate: (view: any) => void }) {
 
         {/* Main heading */}
         <div className="text-center mb-8 max-w-5xl mx-auto">
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-[1.1] tracking-tight animate-fade-up" style={{ animationDelay: "0.1s" }}>
+          <h1 className="hero-title text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-[1.1] tracking-tight animate-fade-up" style={{ animationDelay: "0.1s" }}>
             تعلم المحاسبة المالية
             <br />
             <span className="relative inline-block">
@@ -173,10 +173,10 @@ function StatCard({
         <div className={`inline-flex p-3 rounded-xl bg-gradient-to-br ${color} bg-opacity-10 mb-3`}>
           <Icon className="h-6 w-6 text-white" />
         </div>
-        <div className="text-3xl md:text-4xl font-bold tabular-nums bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent">
+        <div className="stat-number text-3xl md:text-4xl font-bold tabular-nums bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent">
           {value}
         </div>
-        <div className="text-sm text-muted-foreground mt-1">{label}</div>
+        <div className="caption-text text-sm text-muted-foreground mt-1">{label}</div>
       </div>
     </div>
   );

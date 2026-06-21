@@ -106,10 +106,10 @@ function GlossaryHeader() {
           <BookText className="h-3 w-3 ml-1" />
           معجم شامل
         </Badge>
-        <h1 className="text-3xl md:text-4xl font-bold mb-3 tracking-tight">
+        <h1 className="section-title text-3xl md:text-4xl font-bold mb-3 tracking-tight">
           معجم <span className="gradient-text">المصطلحات المحاسبية</span>
         </h1>
-        <p className="text-muted-foreground text-base md:text-lg max-w-3xl">
+        <p className="body-text text-muted-foreground text-base md:text-lg max-w-3xl">
           مرجع شامل لأكثر من 300 مصطلح محاسبي بالعربية والإنجليزية مع التعريفات والأمثلة والروابط بين المصطلحات
         </p>
       </div>
@@ -150,10 +150,10 @@ function ToolsView({
               <Sparkles className="h-3 w-3 ml-1" />
               أدوات تفاعلية
             </Badge>
-            <h1 className="text-3xl md:text-4xl font-bold mb-3 tracking-tight">
+            <h1 className="section-title text-3xl md:text-4xl font-bold mb-3 tracking-tight">
               الأدوات المحاسبية <span className="gradient-text">التفاعلية</span>
             </h1>
-            <p className="text-muted-foreground text-base md:text-lg max-w-3xl">
+            <p className="body-text text-muted-foreground text-base md:text-lg max-w-3xl">
               مارس ما تعلمته من خلال 9 أدوات تفاعلية تحاكي الواقع المحاسبي وتساعدك على إتقان المفاهيم
             </p>
           </div>

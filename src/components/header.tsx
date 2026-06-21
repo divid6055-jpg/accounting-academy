@@ -73,8 +73,8 @@ export function Header({
               </div>
             </div>
             <div className="flex flex-col items-start">
-              <span className="leading-none">أكاديمية المحاسبة</span>
-              <span className="text-[10px] md:text-xs text-muted-foreground font-normal leading-none mt-0.5">
+              <span className="leading-none interactive-text">أكاديمية المحاسبة</span>
+              <span className="english-text text-[10px] md:text-xs text-muted-foreground font-normal leading-none mt-0.5">
                 Financial Accounting Academy
               </span>
             </div>

@@ -175,8 +175,8 @@ export function CurriculumExplorer() {
                     </Badge>
                   )}
                 </div>
-                <h1 className="text-2xl md:text-4xl font-bold mb-3 tracking-tight">{lesson.title}</h1>
-                <p className="text-muted-foreground text-base md:text-lg leading-relaxed">{lesson.summary}</p>
+                <h1 className="lesson-title text-2xl md:text-4xl font-bold mb-3 tracking-tight">{lesson.title}</h1>
+                <p className="body-text text-muted-foreground text-base md:text-lg leading-relaxed">{lesson.summary}</p>
                 {lesson.keywords && lesson.keywords.length > 0 && (
                   <div className="flex flex-wrap gap-1.5 mt-4">
                     {lesson.keywords.map((kw, i) => (
@@ -279,21 +279,21 @@ export function CurriculumExplorer() {
                 <Sparkles className="h-3.5 w-3.5" />
                 <span className="text-xs font-medium">رحلتك التعليمية</span>
               </div>
-              <h1 className="text-3xl md:text-4xl font-bold mb-2">منهج المحاسبة المالية</h1>
-              <p className="text-base opacity-90">تابع تقدمك في إتقان المحاسبة المالية خطوة بخطوة</p>
+              <h1 className="hero-title text-3xl md:text-4xl font-bold mb-2">منهج المحاسبة المالية</h1>
+              <p className="body-text text-base opacity-90">تابع تقدمك في إتقان المحاسبة المالية خطوة بخطوة</p>
             </div>
             <div className="grid grid-cols-3 gap-4 md:gap-6">
               <div className="text-center">
-                <div className="text-2xl md:text-4xl font-bold tabular-nums">{progressPercent}%</div>
-                <div className="text-xs opacity-80">إجمالي الإنجاز</div>
+                <div className="stat-number text-2xl md:text-4xl font-bold tabular-nums">{progressPercent}%</div>
+                <div className="caption-text text-xs opacity-80">إجمالي الإنجاز</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl md:text-4xl font-bold tabular-nums">{completedCount}</div>
-                <div className="text-xs opacity-80">درس مكتمل</div>
+                <div className="stat-number text-2xl md:text-4xl font-bold tabular-nums">{completedCount}</div>
+                <div className="caption-text text-xs opacity-80">درس مكتمل</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl md:text-4xl font-bold tabular-nums">{totalQuizScores}</div>
-                <div className="text-xs opacity-80">اختبار ناجح</div>
+                <div className="stat-number text-2xl md:text-4xl font-bold tabular-nums">{totalQuizScores}</div>
+                <div className="caption-text text-xs opacity-80">اختبار ناجح</div>
               </div>
             </div>
           </div>

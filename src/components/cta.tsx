@@ -21,13 +21,13 @@ export function CTA({ onNavigate }: { onNavigate: (view: any) => void }) {
               <span className="text-sm font-medium">انضم لرحلتنا التعليمية</span>
             </div>
 
-            <h2 className="text-3xl md:text-5xl font-bold mb-4 leading-tight">
+            <h2 className="hero-title text-3xl md:text-5xl font-bold mb-4 leading-tight">
               جاهز لبدء رحلتك نحو
               <br />
               <span className="text-amber-200">احتراف المحاسبة المالية؟</span>
             </h2>
 
-            <p className="text-lg md:text-xl mb-8 opacity-90 max-w-2xl mx-auto">
+            <p className="body-text text-lg md:text-xl mb-8 opacity-90 max-w-2xl mx-auto">
               انضم إلى آلاف المتعلمين الذين اختاروا منصتنا لتعلم المحاسبة المالية بالعربية
             </p>
 

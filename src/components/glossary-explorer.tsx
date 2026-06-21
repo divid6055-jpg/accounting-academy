@@ -112,9 +112,9 @@ export function GlossaryExplorer() {
                 >
                   <div className="flex items-start justify-between gap-2 mb-2">
                     <div className="flex-1 min-w-0">
-                      <h4 className="font-bold text-base group-hover:text-primary transition-colors">{term.term}</h4>
+                      <h4 className="glossary-term font-bold text-base group-hover:text-primary transition-colors">{term.term}</h4>
                       <div className="flex items-center gap-1.5 mt-0.5">
-                        <p className="text-xs text-muted-foreground italic" dir="ltr">
+                        <p className="english-text text-xs text-muted-foreground italic" dir="ltr">
                           {term.english}
                         </p>
                         <Volume2
@@ -127,7 +127,7 @@ export function GlossaryExplorer() {
                       </div>
                     </div>
                   </div>
-                  <p className="text-sm text-foreground/80 leading-relaxed line-clamp-3">
+                  <p className="body-text text-sm text-foreground/80 leading-relaxed line-clamp-3">
                     {term.definition}
                   </p>
                 </button>
@@ -162,7 +162,7 @@ export function GlossaryExplorer() {
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">
-                    <h2 className="text-2xl md:text-3xl font-bold">{selectedTerm.term}</h2>
+                    <h2 className="glossary-term text-2xl md:text-3xl font-bold">{selectedTerm.term}</h2>
                     <Button
                       variant="ghost"
                       size="icon"
@@ -172,7 +172,7 @@ export function GlossaryExplorer() {
                       <Volume2 className="h-4 w-4" />
                     </Button>
                   </div>
-                  <p className="text-sm text-muted-foreground italic" dir="ltr">
+                  <p className="english-text text-sm text-muted-foreground italic" dir="ltr">
                     {selectedTerm.english}
                   </p>
                 </div>

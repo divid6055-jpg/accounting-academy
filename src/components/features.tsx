@@ -71,13 +71,13 @@ export function Features() {
         <div className="text-center mb-12 md:mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-4">
             <Sparkles className="h-4 w-4 text-primary" />
-            <span className="text-sm font-medium text-primary">لماذا منصتنا؟</span>
+            <span className="ui-text text-sm font-medium text-primary">لماذا منصتنا؟</span>
           </div>
-          <h2 className="text-3xl md:text-5xl font-bold mb-4 tracking-tight">
+          <h2 className="section-title text-3xl md:text-5xl font-bold mb-4 tracking-tight">
             تجربة تعلم
             <span className="gradient-text mr-2">متكاملة</span>
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+          <p className="caption-text text-muted-foreground text-lg max-w-2xl mx-auto">
             نجمع بين النظرية والتطبيق العملي في منصة واحدة متكاملة
           </p>
         </div>

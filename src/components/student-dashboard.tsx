@@ -122,12 +122,12 @@ export function StudentDashboard() {
                 <Sparkles className="h-3.5 w-3.5" />
                 <span className="text-xs font-medium">لوحة التحكم</span>
               </div>
-              <h1 className="text-3xl md:text-4xl font-bold mb-2">رحلتك التعليمية</h1>
-              <p className="text-base opacity-90">تابع تقدمك في إتقان المحاسبة المالية خطوة بخطوة</p>
+              <h1 className="hero-title text-3xl md:text-4xl font-bold mb-2">رحلتك التعليمية</h1>
+              <p className="body-text text-base opacity-90">تابع تقدمك في إتقان المحاسبة المالية خطوة بخطوة</p>
             </div>
             <div className="text-center">
-              <div className="text-5xl md:text-6xl font-bold tabular-nums">{progressPercent}%</div>
-              <div className="text-xs opacity-80">إجمالي الإنجاز</div>
+              <div className="stat-number text-5xl md:text-6xl font-bold tabular-nums">{progressPercent}%</div>
+              <div className="caption-text text-xs opacity-80">إجمالي الإنجاز</div>
             </div>
           </div>
           <Progress value={progressPercent} className="bg-white/20 h-3" />
@@ -314,9 +314,9 @@ function StatCard({
         <div className={`inline-flex items-center justify-center h-10 w-10 rounded-xl ${bgColor} mb-3`}>
           <Icon className={`h-5 w-5 bg-gradient-to-br ${color} bg-clip-text text-transparent`} />
         </div>
-        <div className="text-2xl md:text-3xl font-bold tabular-nums">{value}</div>
-        <div className="text-sm font-medium text-foreground/80 mt-0.5">{label}</div>
-        {subValue && <div className="text-xs text-muted-foreground mt-0.5">{subValue}</div>}
+        <div className="stat-number text-2xl md:text-3xl font-bold tabular-nums">{value}</div>
+        <div className="ui-text text-sm font-medium text-foreground/80 mt-0.5">{label}</div>
+        {subValue && <div className="caption-text text-xs text-muted-foreground mt-0.5">{subValue}</div>}
       </CardContent>
     </Card>
   );
