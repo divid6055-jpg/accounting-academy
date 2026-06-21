@@ -37,6 +37,9 @@ jobs:
       - name: Remove problematic examples folder
         run: rm -rf examples
 
+      - name: Remove API route (not supported in static export)
+        run: rm -rf src/app/api
+
       - name: Configure Next.js for static export
         run: |
           cat > next.config.ts << 'EOF'
@@ -48,9 +51,6 @@ jobs:
             basePath: "/accounting-academy",
             typescript: {
               ignoreBuildErrors: true,
-            },
-            eslint: {
-              ignoreDuringBuilds: true,
             },
           };
           export default nextConfig;
