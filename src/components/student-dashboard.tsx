@@ -16,6 +16,7 @@ import {
   Star,
   CheckCircle2,
   Zap,
+  Sparkles,
 } from "lucide-react";
 
 export function StudentDashboard() {
@@ -26,7 +27,6 @@ export function StudentDashboard() {
   const completedCount = completedLessons.length;
   const progressPercent = Math.round((completedCount / totalLessons) * 100);
 
-  // Quiz stats
   const quizScores = Object.values(completedQuizzes);
   const passedQuizzes = quizScores.filter((s) => s >= 70).length;
   const avgScore = quizScores.length > 0
@@ -34,7 +34,6 @@ export function StudentDashboard() {
     : 0;
   const excellentScores = quizScores.filter((s) => s >= 90).length;
 
-  // Total study time
   const totalMinutes = completedLessons.reduce((acc, lessonId) => {
     const lesson = allLessons.find((l) => l.lesson.id === lessonId);
     return acc + (lesson?.lesson.duration || 0);
@@ -42,7 +41,6 @@ export function StudentDashboard() {
   const totalHours = Math.floor(totalMinutes / 60);
   const totalMins = totalMinutes % 60;
 
-  // Level-by-level progress
   const levelProgress = curriculum.map((level) => {
     const levelLessons = level.modules.flatMap((m) => m.lessons);
     const completed = levelLessons.filter((l) => completedLessons.includes(l.id)).length;
@@ -55,7 +53,6 @@ export function StudentDashboard() {
     };
   });
 
-  // Achievements
   const achievements = [
     {
       id: "first-step",
@@ -63,7 +60,7 @@ export function StudentDashboard() {
       description: "أكملت أول درس",
       icon: Star,
       unlocked: completedCount >= 1,
-      color: "text-amber-500",
+      color: "from-amber-500 to-orange-600",
     },
     {
       id: "five-lessons",
@@ -71,7 +68,7 @@ export function StudentDashboard() {
       description: "أكملت 5 دروس",
       icon: Zap,
       unlocked: completedCount >= 5,
-      color: "text-emerald-500",
+      color: "from-emerald-500 to-emerald-700",
     },
     {
       id: "ten-lessons",
@@ -79,7 +76,7 @@ export function StudentDashboard() {
       description: "أكملت 10 دروس",
       icon: Flame,
       unlocked: completedCount >= 10,
-      color: "text-rose-500",
+      color: "from-rose-500 to-pink-600",
     },
     {
       id: "level-1",
@@ -87,7 +84,7 @@ export function StudentDashboard() {
       description: "أكملت المستوى الأول",
       icon: Trophy,
       unlocked: levelProgress[0]?.percentage === 100,
-      color: "text-violet-500",
+      color: "from-violet-500 to-purple-600",
     },
     {
       id: "quiz-master",
@@ -95,7 +92,7 @@ export function StudentDashboard() {
       description: "نجحت في 10 اختبارات",
       icon: Award,
       unlocked: passedQuizzes >= 10,
-      color: "text-amber-500",
+      color: "from-cyan-500 to-blue-600",
     },
     {
       id: "perfectionist",
@@ -103,7 +100,7 @@ export function StudentDashboard() {
       description: "حصلت على 90%+ في 5 اختبارات",
       icon: Target,
       unlocked: excellentScores >= 5,
-      color: "text-emerald-500",
+      color: "from-indigo-500 to-blue-700",
     },
   ];
 
@@ -111,24 +108,31 @@ export function StudentDashboard() {
 
   return (
     <div className="space-y-6">
-      {/* Hero stats */}
-      <Card className="overflow-hidden border-primary/20">
-        <div className="bg-gradient-to-l from-primary to-accent p-6 text-primary-foreground">
-          <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
+      {/* Hero header */}
+      <div className="relative rounded-3xl overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary to-accent" />
+        <div className="absolute inset-0 islamic-pattern opacity-20" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-float" />
+        <div className="absolute bottom-0 left-0 w-72 h-72 bg-amber-300/10 rounded-full blur-3xl animate-float" style={{ animationDelay: "1s" }} />
+
+        <div className="relative p-6 md:p-10 text-primary-foreground">
+          <div className="flex flex-wrap items-start justify-between gap-6 mb-6">
             <div>
-              <h2 className="text-2xl font-bold mb-1">لوحة تحكم الطالب</h2>
-              <p className="text-sm opacity-90">
-                تابع رحلتك في إتقان المحاسبة المالية
-              </p>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-3">
+                <Sparkles className="h-3.5 w-3.5" />
+                <span className="text-xs font-medium">لوحة التحكم</span>
+              </div>
+              <h1 className="text-3xl md:text-4xl font-bold mb-2">رحلتك التعليمية</h1>
+              <p className="text-base opacity-90">تابع تقدمك في إتقان المحاسبة المالية خطوة بخطوة</p>
             </div>
             <div className="text-center">
-              <div className="text-5xl font-bold tabular-nums">{progressPercent}%</div>
-              <div className="text-xs opacity-90">إجمالي الإنجاز</div>
+              <div className="text-5xl md:text-6xl font-bold tabular-nums">{progressPercent}%</div>
+              <div className="text-xs opacity-80">إجمالي الإنجاز</div>
             </div>
           </div>
           <Progress value={progressPercent} className="bg-white/20 h-3" />
         </div>
-      </Card>
+      </div>
 
       {/* Quick stats grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -136,115 +140,127 @@ export function StudentDashboard() {
           icon={BookOpen}
           value={completedCount.toString()}
           label="درس مكتمل"
-          subValue={`من ${totalLessons} درس`
-          }
-          color="text-emerald-600"
-          bgColor="bg-emerald-50"
+          subValue={`من ${totalLessons} درس`}
+          color="from-emerald-500 to-emerald-700"
+          bgColor="bg-emerald-50 dark:bg-emerald-950/30"
+          delay={0}
         />
         <StatCard
           icon={Trophy}
           value={passedQuizzes.toString()}
           label="اختبار ناجح"
           subValue={`من ${quizScores.length} محاولة`}
-          color="text-amber-600"
-          bgColor="bg-amber-50"
+          color="from-amber-500 to-orange-600"
+          bgColor="bg-amber-50 dark:bg-amber-950/30"
+          delay={0.1}
         />
         <StatCard
           icon={Clock}
           value={`${totalHours}س ${totalMins}د`}
           label="وقت الدراسة"
           subValue="الإجمالي"
-          color="text-rose-600"
-          bgColor="bg-rose-50"
+          color="from-rose-500 to-pink-600"
+          bgColor="bg-rose-50 dark:bg-rose-950/30"
+          delay={0.2}
         />
         <StatCard
           icon={TrendingUp}
           value={`${avgScore}%`}
           label="متوسط الاختبارات"
           subValue={`${excellentScores} اختبار بدرجة الامتياز`}
-          color="text-violet-600"
-          bgColor="bg-violet-50"
+          color="from-violet-500 to-purple-600"
+          bgColor="bg-violet-50 dark:bg-violet-950/30"
+          delay={0.3}
         />
       </div>
 
-      {/* Level progress */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Target className="h-5 w-5 text-primary" />
-            التقدم حسب المستوى
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {levelProgress.map((level, idx) => {
-            const colors: Record<string, string> = {
-              emerald: "bg-emerald-500",
-              amber: "bg-amber-500",
-              rose: "bg-rose-500",
-              violet: "bg-violet-500",
-            };
-            return (
-              <div key={idx}>
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-sm font-medium">{level.title}</span>
-                  <span className="text-xs text-muted-foreground tabular-nums">
-                    {level.completed}/{level.total} ({level.percentage}%)
-                  </span>
-                </div>
-                <div className="h-2 rounded-full bg-muted overflow-hidden">
-                  <div
-                    className={`h-full ${colors[level.color]} transition-all duration-500`}
-                    style={{ width: `${level.percentage}%` }}
-                  />
-                </div>
+      {/* Level progress & Achievements */}
+      <div className="grid md:grid-cols-2 gap-6">
+        {/* Level progress */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <div className="p-2 rounded-lg bg-primary/10">
+                <Target className="h-5 w-5 text-primary" />
               </div>
-            );
-          })}
-        </CardContent>
-      </Card>
+              التقدم حسب المستوى
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {levelProgress.map((level, idx) => {
+              const colors: Record<string, string> = {
+                emerald: "from-emerald-500 to-emerald-700",
+                amber: "from-amber-500 to-orange-600",
+                rose: "from-rose-500 to-pink-600",
+                violet: "from-violet-500 to-purple-600",
+                cyan: "from-cyan-500 to-blue-600",
+                indigo: "from-indigo-500 to-blue-700",
+              };
+              return (
+                <div key={idx} className="space-y-1.5">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="font-medium">{level.title}</span>
+                    <span className="text-xs text-muted-foreground tabular-nums">
+                      {level.completed}/{level.total} ({level.percentage}%)
+                    </span>
+                  </div>
+                  <div className="h-2 rounded-full bg-muted overflow-hidden">
+                    <div
+                      className={`h-full bg-gradient-to-l ${colors[level.color] || colors.emerald} transition-all duration-500 rounded-full`}
+                      style={{ width: `${level.percentage}%` }}
+                    />
+                  </div>
+                </div>
+              );
+            })}
+          </CardContent>
+        </Card>
 
-      {/* Achievements */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Award className="h-5 w-5 text-primary" />
-            الإنجازات
-            <Badge variant="secondary" className="mr-auto">
-              {unlockedCount}/{achievements.length} مفتوح
-            </Badge>
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-            {achievements.map((ach) => (
-              <div
-                key={ach.id}
-                className={`p-4 rounded-lg border text-center transition-all ${
-                  ach.unlocked
-                    ? "border-primary/30 bg-card hover:shadow-md"
-                    : "border-border bg-muted/30 opacity-60"
-                }`}
-              >
-                <div className={`mx-auto mb-2 h-12 w-12 rounded-full flex items-center justify-center ${ach.unlocked ? "bg-primary/10" : "bg-muted"}`}>
-                  <ach.icon className={`h-6 w-6 ${ach.unlocked ? ach.color : "text-muted-foreground"}`} />
-                </div>
-                <h4 className="font-semibold text-sm mb-1">{ach.title}</h4>
-                <p className="text-xs text-muted-foreground">{ach.description}</p>
-                {ach.unlocked && (
-                  <Badge variant="outline" className="mt-2 bg-emerald-50 text-emerald-700 text-[10px]">
-                    <CheckCircle2 className="h-3 w-3 ml-1" />
-                    مفتوح
-                  </Badge>
-                )}
+        {/* Achievements */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <div className="p-2 rounded-lg bg-amber-500/10">
+                <Award className="h-5 w-5 text-amber-500" />
               </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+              الإنجازات
+              <Badge variant="secondary" className="mr-auto bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300">
+                {unlockedCount}/{achievements.length}
+              </Badge>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+              {achievements.map((ach) => (
+                <div
+                  key={ach.id}
+                  className={`p-4 rounded-xl border text-center transition-all ${
+                    ach.unlocked
+                      ? "border-primary/30 bg-card hover:shadow-md hover:-translate-y-1"
+                      : "border-border bg-muted/30 opacity-60"
+                  }`}
+                >
+                  <div className={`mx-auto mb-2 h-12 w-12 rounded-full flex items-center justify-center ${ach.unlocked ? `bg-gradient-to-br ${ach.color}` : "bg-muted"}`}>
+                    <ach.icon className={`h-6 w-6 ${ach.unlocked ? "text-white" : "text-muted-foreground"}`} />
+                  </div>
+                  <h4 className="font-semibold text-xs mb-1">{ach.title}</h4>
+                  <p className="text-[10px] text-muted-foreground">{ach.description}</p>
+                  {ach.unlocked && (
+                    <Badge variant="outline" className="mt-2 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400 text-[10px]">
+                      <CheckCircle2 className="h-3 w-3 ml-1" />
+                      مفتوح
+                    </Badge>
+                  )}
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
 
       {/* Bookmarks & Notes count */}
-      <div className="grid md:grid-cols-2 gap-4">
-        <Card>
+      <div className="grid md:grid-cols-2 gap-6">
+        <Card className="hover-lift">
           <CardHeader>
             <CardTitle className="text-base flex items-center gap-2">
               <BookOpen className="h-4 w-4 text-primary" />
@@ -252,11 +268,11 @@ export function StudentDashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums">{bookmarks.length}</div>
-            <p className="text-xs text-muted-foreground mt-1">درس محفوظ للمراجعة</p>
+            <div className="text-3xl font-bold tabular-nums mb-1">{bookmarks.length}</div>
+            <p className="text-xs text-muted-foreground">درس محفوظ للمراجعة</p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="hover-lift">
           <CardHeader>
             <CardTitle className="text-base flex items-center gap-2">
               <Target className="h-4 w-4 text-primary" />
@@ -264,10 +280,10 @@ export function StudentDashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tabular-nums">
+            <div className="text-3xl font-bold tabular-nums mb-1">
               {Object.keys(notes).filter((k) => notes[k]?.trim()).length}
             </div>
-            <p className="text-xs text-muted-foreground mt-1">ملاحظة محفوظة</p>
+            <p className="text-xs text-muted-foreground">ملاحظة محفوظة</p>
           </CardContent>
         </Card>
       </div>
@@ -282,6 +298,7 @@ function StatCard({
   subValue,
   color,
   bgColor,
+  delay,
 }: {
   icon: any;
   value: string;
@@ -289,15 +306,16 @@ function StatCard({
   subValue?: string;
   color: string;
   bgColor: string;
+  delay: number;
 }) {
   return (
-    <Card className="overflow-hidden">
-      <CardContent className="p-4">
-        <div className={`inline-flex items-center justify-center h-10 w-10 rounded-lg ${bgColor} mb-3`}>
-          <Icon className={`h-5 w-5 ${color}`} />
+    <Card className="overflow-hidden hover-lift animate-fade-up" style={{ animationDelay: `${delay}s` }}>
+      <CardContent className="p-5">
+        <div className={`inline-flex items-center justify-center h-10 w-10 rounded-xl ${bgColor} mb-3`}>
+          <Icon className={`h-5 w-5 bg-gradient-to-br ${color} bg-clip-text text-transparent`} />
         </div>
-        <div className="text-2xl font-bold tabular-nums">{value}</div>
-        <div className="text-sm font-medium text-foreground/80">{label}</div>
+        <div className="text-2xl md:text-3xl font-bold tabular-nums">{value}</div>
+        <div className="text-sm font-medium text-foreground/80 mt-0.5">{label}</div>
         {subValue && <div className="text-xs text-muted-foreground mt-0.5">{subValue}</div>}
       </CardContent>
     </Card>
